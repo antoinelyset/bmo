@@ -4,7 +4,7 @@ require File.expand_path('../lib/bmo/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = 'bmo'
-  gem.summary       = 'Push to iOS and Android devices'
+  gem.summary       = 'Push notifications to iOS and Android devices'
   gem.description   = gem.summary
   gem.authors       = ['Antoine Lyset']
   gem.email         = ['antoinelyset@gmail.com']
