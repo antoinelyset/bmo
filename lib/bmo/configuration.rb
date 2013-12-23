@@ -1,4 +1,5 @@
 # encoding: utf-8
+# Main BMO module
 module BMO
   # Handles all the configuration per provider
   class Configuration
@@ -8,6 +9,7 @@ module BMO
       @apns = APNS.new
       @gcm  = GCM.new
     end
+
     # APNS Configuration
     #
     # @!attribute gateway_host
@@ -33,7 +35,10 @@ module BMO
 
     # GCM Configuration
     class GCM
+      attr_accessor :gateway_url, :api_key
       def initialize
+        @gateway_url = 'https://android.googleapis.com/gcm/send'
+        @api_key     = nil
       end
     end
   end # class Configuration

@@ -27,7 +27,8 @@ PATH
   remote: .
   specs:
     bmo (0.0.1)
-      equalizer
+      equalizer (~> 0.0.0)
+      faraday (~> 0.8.0)
 
 GEM
   remote: https://rubygems.org/
@@ -73,6 +74,8 @@ GEM
     docile (1.1.1)
     equalizer (0.0.8)
     erubis (2.7.0)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     ffi (1.9.3)
     flay (2.4.0)
       ruby_parser (~> 3.0)
@@ -128,6 +131,7 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
     parser (2.0.0)
       ast (~> 1.1)
       slop (~> 3.4, >= 3.4.5)

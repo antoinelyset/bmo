@@ -45,7 +45,7 @@ module BMO
         attr_reader :data
 
         def initialize(data)
-          @data = coerce_to_symbols(data)
+          @data = Utils.coerce_to_symbols(data)
         end
 
         def to_package
@@ -60,17 +60,6 @@ module BMO
             fail PayloadTooLarge, str
           end
           true
-        end
-
-        private
-
-        def coerce_to_symbols(hash)
-          hash_symbolized = {}
-          hash.each_pair do |key, value|
-            key = key.to_sym if key.respond_to?(:to_sym)
-            hash_symbolized[key] = value
-          end
-          hash_symbolized
         end
       end # class Payload
 

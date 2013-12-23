@@ -2,7 +2,6 @@
 module BMO
   module APNS
     # Handle the connection state SSL or Pure TCP
-    #
     class Connection
       attr_reader :host, :port, :cert_path, :cert_pass
 

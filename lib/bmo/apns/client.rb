@@ -1,8 +1,14 @@
 # encoding: utf-8
 module BMO
   module APNS
-    # The Client Class handles the connection to Apple
+    # APNS Client Class
     #
+    # @!attribute gateway_host
+    # @!attribute gateway_port
+    # @!attribute feedback_host
+    # @!attribute feedback_port
+    # @!attribute cert_path
+    # @!attribute cert_pass
     class Client
       attr_reader :cert_path,     :cert_pass,
                   :gateway_host,  :gateway_port,
@@ -19,7 +25,7 @@ module BMO
       # @options options [String] :cert_pass
       # @options options [String] :cert_path path to certificate file
       #
-      def initialize(gateway_host, gateway_port,
+      def initialize(gateway_host,  gateway_port,
                      feedback_host, feedback_port,
                      options = {})
         @gateway_host  = gateway_host
@@ -33,8 +39,8 @@ module BMO
       # @param notification [Notification] the notification to send to Apple
       #
       def send_notification(notification)
-        connection = BMO::APNS::Connection.new(@gateway_host, @gateway_port,
-                                               @cert_path, @cert_pass)
+        connection = APNS::Connection.new(@gateway_host, @gateway_port,
+                                          @cert_path,    @cert_pass)
         connection.connect do |socket|
           socket.write(notification.to_package)
         end
@@ -43,24 +49,11 @@ module BMO
       # Get the Feedback from Apple
       #
       def get_feedback
-        connection = BMO::APNS::Connection.new(@feedback_host, @feedback_port,
-                                               @cert_path, @cert_pass)
+        connection = APNS::Connection.new(@feedback_host, @feedback_port,
+                                          @cert_path,     @cert_pass)
         connection.connect do |socket|
           socket.read
         end
-      end
-
-      private
-
-      def default_options
-        {
-          cert_path:     nil,
-          cert_pass:     nil,
-          gateway_host:  'gateway.push.apple.com',
-          gateway_port:  2195,
-          feedback_host: 'feedback.push.apple.com',
-          feedback_port: 2196
-        }
       end
     end # class Client
   end # module APNS
