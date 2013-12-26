@@ -2,10 +2,9 @@
 module BMO
   module GCM
     # Handle the connection state SSL or Pure TCP
-    #
     class Connection
       def initialize(gateway_url, api_key)
-        @gateway_url = gateway_url
+        @gateway_url        = gateway_url
         @faraday_connection = Faraday::Connection.new(gateway_url)
         @api_key            = api_key
       end

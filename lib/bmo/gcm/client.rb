@@ -10,7 +10,7 @@ module BMO
         @api_key     = api_key
       end
 
-      # @param notification [Notification] the notification to send to Apple
+      # @param notification [Notification] the notification to send to Google
       #
       def send_notification(notification)
         connection = GCM::Connection.new(gateway_url, api_key)

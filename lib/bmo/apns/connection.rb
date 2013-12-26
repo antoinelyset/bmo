@@ -15,13 +15,14 @@ module BMO
       # Create a connection to Apple. If a cert_path exists it uses SSL else
       #   a pure TCPSocket. It then yields the socket and handles the closing
       #
+      # @return The yielded return
       def connect(&block)
         socket = cert_path ? ssl_socket : tcp_socket
-        socket.connect
 
-        yield socket
+        yielded = yield socket
 
         socket.close
+        yielded
       end
 
       private
@@ -31,11 +32,12 @@ module BMO
         TCPSocket.new(host, port)
       end
 
-      # @return [SSLSocket] the SSLSocket setted to sync_close
-      #   to sync tcp and ssl closing
+      # @return [SSLSocket] the SSLSocket connected and setted to sync_close
+      #   to sync tcp_socket and ssl_socket closing.
       def ssl_socket
         ssl_socket = OpenSSL::SSL::SSLSocket.new(tcp_socket, ssl_context)
         ssl_socket.sync_close = true
+        ssl_socket.connect
         ssl_socket
       end
 
