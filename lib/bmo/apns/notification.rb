@@ -49,7 +49,7 @@ module BMO
         end
 
         def to_package
-          data.to_json.bytes.pack('C*')
+          data.to_json.bytes.to_a.pack('C*')
         end
 
         def validate!
