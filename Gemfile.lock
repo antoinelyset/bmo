@@ -219,6 +219,7 @@ PLATFORMS
 
 DEPENDENCIES
   bmo!
+  bundler (~> 1.3)
   coveralls
   flay
   flog
@@ -230,6 +231,7 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   jazz_hands
+  rake
   reek
   rspec
   rubocop

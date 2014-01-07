@@ -14,7 +14,12 @@ Gem::Specification.new do |gem|
   gem.files           = `git ls-files`.split("\n")
   gem.test_files      = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.executables     = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  gem.add_runtime_dependency('equalizer', '~> 0.0.0')
-  gem.add_runtime_dependency('faraday', '~> 0.8.0')
+
+  gem.add_runtime_dependency 'equalizer', '~> 0.0.0'
+  gem.add_runtime_dependency 'faraday', '~> 0.8.0'
+
+  gem.add_development_dependency 'bundler', '~> 1.3'
+  gem.add_development_dependency 'rake'
+
   gem.license       = 'MIT'
 end

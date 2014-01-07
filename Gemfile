@@ -6,16 +6,19 @@ gemspec
 
 group :test do
   gem 'rspec'
-  gem 'coveralls'
-  gem 'flay'
-  gem 'flog'
-  gem 'reek'
   gem 'rubocop'
   gem 'simplecov'
+  gem 'coveralls'
 end
 
 group :development do
+  # Prying
   gem 'jazz_hands'
+
+  # Metrics
+  gem 'flay'
+  gem 'flog'
+  gem 'reek'
 
   # Guards
   gem 'guard'
