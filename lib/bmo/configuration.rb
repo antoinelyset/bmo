@@ -43,16 +43,25 @@ module BMO
     end
   end # class Configuration
 
-  def self.configure
+  module_function
+
+  def configure
     yield(configuration) if block_given?
     configuration
   end
 
-  def self.configuration
+  def configuration
     @configuration ||= Configuration.new
   end
 
-  def self.reset_configuration
+  # Needed because we can't use module_function and attr_writer
+  # rubocop:disable TrivialAccessors
+  def configuration=(configuration)
+    @configuration = configuration
+  end
+  # rubocop:enable
+
+  def reset_configuration
     @configuration = Configuration.new
   end
 end # BMO

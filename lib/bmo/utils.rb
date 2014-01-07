@@ -2,8 +2,10 @@
 module BMO
   # Utility module
   module Utils
+    module_function
+
     # Coerce string hash keys to symbols
-    def self.coerce_to_symbols(hash)
+    def coerce_to_symbols(hash)
       hash_symbolized = {}
       hash.each_pair do |key, value|
         key = key.to_sym if key.respond_to?(:to_sym)
