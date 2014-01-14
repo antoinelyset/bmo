@@ -70,7 +70,7 @@ data  = {message: "Hello from BMO!"}
 BMO.send_android_notification(token, data)
 ```
 
-The data contennt is described here :
+The data content's is described here :
 
 [http://developer.android.com/google/gcm/server.html](http://developer.android.com/google/gcm/server.html)
 
