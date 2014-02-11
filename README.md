@@ -9,12 +9,18 @@
 
 # BMO (Beemo)
 
-[![Build Status](https://travis-ci.org/antoinelyset/bmo.png?branch=master)](https://travis-ci.org/antoinelyset/bmo)
-[![Code Climate](https://codeclimate.com/github/antoinelyset/bmo.png)](https://codeclimate.com/github/antoinelyset/bmo)
-[![Gem Version](https://badge.fury.io/rb/bmo.png)](http://badge.fury.io/rb/bmo)
-[![Dependency Status](https://gemnasium.com/antoinelyset/bmo.png)](https://gemnasium.com/antoinelyset/bmo)
-
 BMO is a gem to Push Notifications to iOS (via APNS) and Android (via GCM)
+
+| Project                 |  BMO                                                                                                                          |
+|------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| Gem Name                |  bmo                                                                                                                          |
+| License                 |  [MIT](https://github.com/antoinelyset/bmo/blob/master/LICENSE)                                                               |
+| Version                 |  [![Gem Version](https://badge.fury.io/rb/bmo.png)](http://badge.fury.io/rb/bmo)                                              |
+| Dependency Status       |  [![Dependency Status](https://gemnasium.com/antoinelyset/bmo.png)](https://gemnasium.com/antoinelyset/bmo)                   |
+| Continuous Integration  |  [![Build Status](https://secure.travis-ci.org/antoinelyset/bmo.png?branch=master)](https://travis-ci.org/antoinelyset/bmo)   |
+| Test Coverage           |  [![Coverage Status](https://coveralls.io/repos/antoinelyset/bmo/badge.png)](https://coveralls.io/r/antoinelyset/bmo)         |
+| Homepage                |  [BMO](https://github.com/antoinelyset/bmo)                                                                                   |
+| Documentation           |  [Rdoc](http://rdoc.info/github/antoinelyset/bmo/frames)                                                                      |
 
 ## Installation
 
