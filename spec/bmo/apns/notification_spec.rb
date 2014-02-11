@@ -44,14 +44,14 @@ describe BMO::APNS::Notification::DeviceToken do
 
     it 'returns false if the token is not 64 chars' do
       device_token = described_class.new('a' * 63)
-      expect { device_token.validate! }.to raise_error
-        BMO::APNS::Notification::DeviceToken::MalformedDeviceToken
+      expect { device_token.validate! }.to raise_error(
+        BMO::APNS::Notification::DeviceToken::MalformedDeviceToken)
     end
 
     it 'returns false if the token contains a special char' do
       device_token = described_class.new(('a' * 63) + '"')
-      expect { device_token.validate! }.to raise_error
-        BMO::APNS::Notification::DeviceToken::MalformedDeviceToken
+      expect { device_token.validate! }.to raise_error(
+        BMO::APNS::Notification::DeviceToken::MalformedDeviceToken)
     end
   end
 
