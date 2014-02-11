@@ -41,8 +41,8 @@ module BMO
   #
   # @return [Array<FeedbackTuple>] Feedback Object containing
   #   a time and a token
-  def self.get_ios_feedback
-    apns_client.get_feedback
+  def self.ios_feedback
+    apns_client.feedback
   end
 
   # Send android notification with the configuration of BMO

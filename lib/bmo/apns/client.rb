@@ -51,7 +51,7 @@ module BMO
       # @return <Array[FeedbackTuple]> A feedback tuple contains the time
       #   when Apple determined that the app no longer exists on the device,
       #   and a the token of device token
-      def get_feedback
+      def feedback
         connection = APNS::Connection.new(@feedback_host, @feedback_port,
                                           @cert_path,     @cert_pass)
         connection.connect do |socket|
