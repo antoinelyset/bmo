@@ -33,6 +33,7 @@ module BMO
   #   Chapters/ApplePushService.html
   def self.send_ios_notification(device_token, data)
     notification = APNS::Notification.new(device_token, data)
+    notification.validate!
     apns_client.send_notification(notification)
   end
 
@@ -55,6 +56,7 @@ module BMO
   # @see http://developer.android.com/google/gcm/server.html]
   def self.send_android_notification(device_token, data)
     notification = GCM::Notification.new(device_token, data)
+    notification.validate!
     gcm_client.send_notification(notification)
   end
 
