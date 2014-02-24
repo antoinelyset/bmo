@@ -55,7 +55,7 @@ module BMO
         def validate!
           if to_package.size > MAX_BYTE_SIZE
             str = <<-EOS
-              Payload size should be less than #{Payload::MAX_BYTE_SIZE} bytes"
+              Payload size should be less than #{Payload::MAX_BYTE_SIZE} bytes
             EOS
             fail PayloadTooLarge, str
           end
