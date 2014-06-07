@@ -56,11 +56,11 @@ Default Params :
 ```ruby
 BMO.configuration do |config|
   config.apns.gateway_host  = 'gateway.push.apple.com'
-  config.apns.gateway_port  =  2195
-  config.apns.feedback_host =  'feedback.push.apple.com'
-  config.apns.feedback_port =  2196
-  config.apns.cert_path     =  nil
-  config.apns.cert_pass     =  nil
+  config.apns.gateway_port  = 2195
+  config.apns.feedback_host = 'feedback.push.apple.com'
+  config.apns.feedback_port = 2196
+  config.apns.cert_path     = nil
+  config.apns.cert_pass     = nil
 end
 ```
 
@@ -92,7 +92,7 @@ BMO.configuration do |config|
 end
 ```
 
-You should set the api_key.
+You should set the api_key. It uses Faraday internally, so just set your regular http_proxy environment variable if need to configure a proxy.
 
 ## License
 
