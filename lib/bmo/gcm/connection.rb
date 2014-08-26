@@ -9,7 +9,7 @@ module BMO
         @api_key            = api_key
       end
 
-      def connect(&block)
+      def connect
         faraday_connection.post(gateway_url) do |request|
           request.headers.merge!(content_type: 'application/json',
                                  authorization: "key=#{api_key}")

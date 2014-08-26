@@ -3,52 +3,19 @@
 require File.dirname(__FILE__) + '../../../spec_helper'
 
 describe BMO::APNS::Notification::DeviceToken do
-  describe '#token' do
-    it 'returns the token' do
-      device_token     = described_class.new('abc')
-      expect(device_token.token).to eq('abc')
-    end
-  end
-
-  describe '#==' do
-    it 'returns true for equal device token' do
-      device_token     = described_class.new('abc')
-      device_token_bis = described_class.new('abc')
-      expect(device_token == device_token_bis).to be_true
-    end
-
-    it 'returns true for equal device token' do
-      device_token     = described_class.new('abc')
-      device_token_bis = described_class.new('abc')
-      expect(device_token).to eq(device_token_bis)
-    end
-
-    it 'returns false for equal device token' do
-      device_token     = described_class.new('abc')
-      device_token_bis = described_class.new('def')
-      expect(device_token).to_not eq(device_token_bis)
-    end
-
-    it 'returns true for equal device token' do
-      device_token     = described_class.new('abc')
-      device_token_bis = described_class.new('def')
-      expect(device_token == device_token_bis).to be_false
-    end
-  end
-
   describe '#validate!' do
     it 'returns true if the token is 64 chars' do
       device_token = described_class.new('a' * 64)
       expect(device_token.validate!).to be_true
     end
 
-    it 'returns false if the token is not 64 chars' do
+    it 'raises an error if the token is not 64 chars' do
       device_token = described_class.new('a' * 63)
       expect { device_token.validate! }.to raise_error(
         BMO::APNS::Notification::DeviceToken::MalformedDeviceToken)
     end
 
-    it 'returns false if the token contains a special char' do
+    it 'raises an error if the token contains a special char' do
       device_token = described_class.new(('a' * 63) + '"')
       expect { device_token.validate! }.to raise_error(
         BMO::APNS::Notification::DeviceToken::MalformedDeviceToken)
@@ -77,5 +44,17 @@ describe BMO::APNS::Notification::Payload do
   it 'returns true for equality between coerced hash and symbolized hash ' do
     payload = described_class.new('Jake' => 'The Dog')
     expect(payload).to eq(described_class.new(Jake: 'The Dog'))
+  end
+
+  describe '#validate!' do
+    it 'returns true if the payload is valid' do
+      payload = described_class.new(apns: 'a' * 200)
+      expect(payload.validate!).to be_true
+    end
+    it 'raises an error if the payload is too large' do
+      payload = described_class.new(apns: 'a' * 256)
+      expect { payload.validate! }.to raise_error(
+        BMO::APNS::Notification::Payload::PayloadTooLarge)
+    end
   end
 end

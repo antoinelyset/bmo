@@ -64,8 +64,6 @@ module BMO
         end
       end
 
-      private
-
       # Handle the Feedback Object
       #
       # @!attribute time [Time] Time when the device was notified

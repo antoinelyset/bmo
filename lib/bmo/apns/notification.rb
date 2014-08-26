@@ -31,8 +31,6 @@ module BMO
         payload.validate!
       end
 
-      private
-
       # The Payload contains the data sent to Apple
       class Payload
         class PayloadTooLarge < Exception; end
@@ -53,10 +51,9 @@ module BMO
         end
 
         def validate!
-          if to_package.size > MAX_BYTE_SIZE
-            str = <<-EOS
-              Payload size should be less than #{Payload::MAX_BYTE_SIZE} bytes
-            EOS
+          if to_package.bytesize > MAX_BYTE_SIZE
+            str = "Payload byte size (#{to_package.bytesize})" \
+              " should be less than #{Payload::MAX_BYTE_SIZE} bytes"
             fail PayloadTooLarge, str
           end
           true
@@ -82,7 +79,7 @@ module BMO
 
         def validate!
           unless token =~ /^[a-z0-9]{64}$/i
-            fail(MalformedDeviceToken, 'Malformed Device Token')
+            fail(MalformedDeviceToken, "Malformed Device Token : #{token}")
           end
           true
         end

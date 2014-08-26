@@ -24,8 +24,6 @@ module BMO
         payload.validate!
       end
 
-      private
-
       # The Payload contains the data sent to Apple
       class Payload
         # Error Raised when the payload packaged > MAX_BYTE_SIZE
@@ -47,7 +45,7 @@ module BMO
         end
 
         def validate!
-          if to_package.size > MAX_BYTE_SIZE
+          if to_package.bytesize > MAX_BYTE_SIZE
             str = <<-EOS
               Payload size should be less than #{Payload::MAX_BYTE_SIZE} bytes
             EOS

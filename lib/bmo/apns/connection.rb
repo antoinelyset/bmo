@@ -16,7 +16,7 @@ module BMO
       #   a pure TCPSocket. It then yields the socket and handles the closing
       #
       # @return The yielded return
-      def connect(&block)
+      def connect
         socket = cert_path ? ssl_socket : tcp_socket
 
         yielded = yield socket
