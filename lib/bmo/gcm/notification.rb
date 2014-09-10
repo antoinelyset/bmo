@@ -45,7 +45,7 @@ module BMO
         end
 
         def validate!
-          if to_package.bytesize > MAX_BYTE_SIZE
+          if to_package.to_json.bytesize > MAX_BYTE_SIZE
             str = <<-EOS
               Payload size should be less than #{Payload::MAX_BYTE_SIZE} bytes
             EOS
