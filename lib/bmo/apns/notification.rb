@@ -8,9 +8,9 @@ module BMO
 
       attr_reader :device_token, :payload
 
-      def initialize(device_token, payload)
+      def initialize(device_token, payload, options = {})
         @device_token = DeviceToken.new(device_token)
-        @payload      = Payload.new(payload)
+        @payload      = Payload.new(payload, options)
       end
 
       def to_package
@@ -40,23 +40,42 @@ module BMO
         # Define ==
         include Equalizer.new(:data)
 
-        attr_reader :data
+        attr_reader :data, :truncable_field, :options
 
-        def initialize(data)
-          @data = Utils.coerce_to_symbols(data)
+        def initialize(data, options = {})
+          @data            = data
+          @truncable_field = options[:truncable_field]
+          @options         = options
         end
 
         def to_package
-          data.to_json.bytes.to_a.pack('C*')
+          truncate_field! if truncable_field && !valid?
+          validate!
+          package
         end
 
         def validate!
-          if to_package.bytesize > MAX_BYTE_SIZE
-            str = "Payload byte size (#{to_package.bytesize})" \
-              " should be less than #{Payload::MAX_BYTE_SIZE} bytes"
-            fail PayloadTooLarge, str
-          end
-          true
+          return true if valid?
+          str = "Payload byte size (#{package.bytesize})" \
+            " should be less than #{Payload::MAX_BYTE_SIZE} bytes"
+          fail PayloadTooLarge, str
+        end
+
+        def package
+          data.to_json.bytes.to_a.pack('C*')
+        end
+
+        def truncate_field!
+          return unless data[:apns] && data[:apns][truncable_field]
+          string                = data[:apns][truncable_field]
+          diff_bytesize         = package.bytesize - MAX_BYTE_SIZE
+          desirable_bytesize    = (string.bytesize - diff_bytesize) - 1
+          data[:apns][truncable_field] = Utils
+            .bytesize_force_truncate(string, desirable_bytesize, options)
+        end
+
+        def valid?
+          package.bytesize < MAX_BYTE_SIZE
         end
       end # class Payload
 

@@ -37,7 +37,7 @@ module BMO
         attr_reader :data
 
         def initialize(data)
-          @data = Utils.coerce_to_symbols(data)
+          @data = data
         end
 
         def to_package

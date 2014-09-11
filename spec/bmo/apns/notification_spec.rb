@@ -31,21 +31,6 @@ describe BMO::APNS::Notification::DeviceToken do
 end
 
 describe BMO::APNS::Notification::Payload do
-  it 'coerce hash keys to symbols' do
-    payload = described_class.new('Finn' => 'The Human')
-    expect(payload.data).to eq(Finn: 'The Human')
-  end
-
-  it "doesn't coerce incompatible types" do
-    payload = described_class.new(1 => 'For Money')
-    expect(payload.data).to eq(1 => 'For Money')
-  end
-
-  it 'returns true for equality between coerced hash and symbolized hash ' do
-    payload = described_class.new('Jake' => 'The Dog')
-    expect(payload).to eq(described_class.new(Jake: 'The Dog'))
-  end
-
   describe '#validate!' do
     it 'returns true if the payload is valid' do
       payload = described_class.new(apns: 'a' * 200)
@@ -55,6 +40,43 @@ describe BMO::APNS::Notification::Payload do
       payload = described_class.new(apns: 'a' * 256)
       expect { payload.validate! }.to raise_error(
         BMO::APNS::Notification::Payload::PayloadTooLarge)
+    end
+  end
+
+  describe '#to_package' do
+    it 'truncates if there is a truncable field and this is not valid' do
+      options = { truncable_field: :message }
+      payload = described_class.new({ apns: { message: 'a' * 256 } }, options)
+      expect(payload.to_package).to eq("{\"apns\":{\"message\":\"#{'a' * 229}...\"}}")
+    end
+
+    it 'truncates to respect the MAX_BYTE_SIZE' do
+      options = { truncable_field: :message }
+      payload = described_class.new({ apns: { message: 'a' * 256 } }, options)
+      expect(payload.to_package.bytesize).to be < BMO::APNS::Notification::Payload::MAX_BYTE_SIZE
+    end
+  end
+
+  describe '#truncable_field!' do
+    it 'truncates the corresponding field in apns' do
+      options = { truncable_field: :message }
+      payload = described_class.new({ apns: { message: 'a' * 256 } }, options)
+      payload.truncate_field!
+      expect(payload.data[:apns][:message]).to eq(('a' * 229) + '...')
+    end
+
+    it 'truncates with omission' do
+      options = { truncable_field: :message, omission: '[more]' }
+      payload = described_class.new({ apns: { message: 'a' * 256 } }, options)
+      payload.truncate_field!
+      expect(payload.data[:apns][:message]).to eq(('a' * 226) + '[more]')
+    end
+
+    it 'truncates with separator' do
+      options = { truncable_field: :message, separator: ' ' }
+      payload = described_class.new({ apns: { message: 'test ' + ('a' * 255) } }, options)
+      payload.truncate_field!
+      expect(payload.data[:apns][:message]).to eq('test...')
     end
   end
 end

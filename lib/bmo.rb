@@ -25,14 +25,19 @@ module BMO
   #
   # @param device_token [String]
   # @param data [Hash] The data you want to send
+  # @option options :truncable_field If the payload is too large
+  #  this field will be truncated, it must be in a apns hash
+  # @option options :omission ('...') The omission in truncate
+  # @option options :separator The separator use in truncation
   #
   # @return The Socket#write return
   #
   # @see https://developer.apple.com/library/ios/documentation/
   #   NetworkingInternet/Conceptual/RemoteNotificationsPG/
   #   Chapters/ApplePushService.html
-  def self.send_ios_notification(device_token, data)
-    notification = APNS::Notification.new(device_token, data)
+  def self.send_ios_notification(device_token, data, options = {})
+    data = Utils.coerce_to_symbols(data)
+    notification = APNS::Notification.new(device_token, data, options)
     notification.validate!
     apns_client.send_notification(notification)
   end
@@ -55,6 +60,7 @@ module BMO
   #
   # @see http://developer.android.com/google/gcm/server.html]
   def self.send_android_notification(device_token, data)
+    data = Utils.coerce_to_symbols(data)
     notification = GCM::Notification.new(device_token, data)
     notification.validate!
     gcm_client.send_notification(notification)
