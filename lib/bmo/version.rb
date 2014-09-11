@@ -1,5 +1,5 @@
 # encoding: utf-8
 # Main BMO module, version get right here
 module BMO
-  VERSION = '0.8.10'.freeze
+  VERSION = '0.8.11'.freeze
 end
