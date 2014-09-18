@@ -14,6 +14,7 @@ module BMO
       end
 
       def to_package
+        validate!
         {
           registration_ids: [device_token],
           data: payload.to_package

@@ -38,7 +38,6 @@ module BMO
   def self.send_ios_notification(device_token, data, options = {})
     data = Utils.coerce_to_symbols(data)
     notification = APNS::Notification.new(device_token, data, options)
-    notification.validate!
     apns_client.send_notification(notification)
   end
 
@@ -62,7 +61,6 @@ module BMO
   def self.send_android_notification(device_token, data)
     data = Utils.coerce_to_symbols(data)
     notification = GCM::Notification.new(device_token, data)
-    notification.validate!
     gcm_client.send_notification(notification)
   end
 
