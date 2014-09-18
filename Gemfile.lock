@@ -26,7 +26,7 @@ GIT
 PATH
   remote: .
   specs:
-    bmo (0.8.11)
+    bmo (0.8.12)
       equalizer (~> 0.0.0)
       faraday (> 0.8.0)
 

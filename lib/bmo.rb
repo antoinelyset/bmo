@@ -26,7 +26,7 @@ module BMO
   # @param device_token [String]
   # @param data [Hash] The data you want to send
   # @option options :truncable_field If the payload is too large
-  #  this field will be truncated, it must be in a apns hash
+  #  this field will be truncated, it must be in an aps hash
   # @option options :omission ('...') The omission in truncate
   # @option options :separator The separator use in truncation
   #

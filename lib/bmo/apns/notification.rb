@@ -66,11 +66,11 @@ module BMO
         end
 
         def truncate_field!
-          return unless data[:apns] && data[:apns][truncable_field]
-          string                = data[:apns][truncable_field]
+          return unless data[:aps] && data[:aps][truncable_field]
+          string                = data[:aps][truncable_field]
           diff_bytesize         = package.bytesize - MAX_BYTE_SIZE
           desirable_bytesize    = (string.bytesize - diff_bytesize) - 1
-          data[:apns][truncable_field] = Utils
+          data[:aps][truncable_field] = Utils
             .bytesize_force_truncate(string, desirable_bytesize, options)
         end
 
