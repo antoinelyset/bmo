@@ -6,4 +6,4 @@ task :rubocop do |t|
   sh 'rubocop lib'
 end
 
-task :default => [:spec, :rubocop]
+task :default => [:spec]
