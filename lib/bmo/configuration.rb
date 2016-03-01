@@ -1,4 +1,3 @@
-# encoding: utf-8
 # Main BMO module
 module BMO
   # Handles all the configuration per provider

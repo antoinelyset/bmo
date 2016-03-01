@@ -1,4 +1,3 @@
-# encoding: utf-8
 module BMO
   module GCM
     # Handle the connection state SSL or Pure TCP

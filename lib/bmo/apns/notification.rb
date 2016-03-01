@@ -1,4 +1,3 @@
-# encoding: utf-8
 module BMO
   module APNS
     # The Notification Class handles all the packaging logic

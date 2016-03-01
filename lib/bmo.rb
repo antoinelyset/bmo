@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'socket'
 require 'openssl'
 require 'json'
