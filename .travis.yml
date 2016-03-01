@@ -1,10 +1,13 @@
+sudo: false
 language: ruby
 bundler_args: --without development
 script:
   - rake
 rvm:
   - 1.9.3
-  - 2.0.0
+  - 2.1
+  - 2.2
+  - 2.3
   - rbx
   - jruby-19mode
 matrix:

@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'spec_helper'
+require_relative './../spec_helper'
 
 describe BMO::Utils do
   describe '#bytesize_force_truncate' do
