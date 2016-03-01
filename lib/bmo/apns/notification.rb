@@ -34,7 +34,7 @@ module BMO
       class Payload
         class PayloadTooLarge < Exception; end
 
-        MAX_BYTE_SIZE = 256
+        MAX_BYTE_SIZE = 2048
 
         # Define ==
         include Equalizer.new(:data)
