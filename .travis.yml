@@ -7,7 +7,6 @@ rvm:
   - 1.9.3
   - 2.1
   - 2.2
-  - 2.3
   - rbx
   - jruby-19mode
 matrix:
