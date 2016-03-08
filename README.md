@@ -9,7 +9,7 @@
 
 # BMO (Beemo)
 
-BMO is a gem to Push Notifications to iOS (via APNS) and Android (via GCM)
+BMO is a gem to Push Notifications to iOS (via APNS) and Android (via GCM). It handles TCP & HTTP Proxies.
 
 | Project                 |  BMO                                                                                                                          |
 |------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -22,6 +22,10 @@ BMO is a gem to Push Notifications to iOS (via APNS) and Android (via GCM)
 | Test Coverage           |  [![Coverage Status](https://coveralls.io/repos/antoinelyset/bmo/badge.png)](https://coveralls.io/r/antoinelyset/bmo)         |
 | Homepage                |  [BMO](https://github.com/antoinelyset/bmo)                                                                                   |
 | Documentation           |  [Rdoc](http://rdoc.info/github/antoinelyset/bmo/frames)                                                                      |
+
+## Why another gem ?
+
+I needed to use stunnel (TCP Proxy for encrypting with SSL/TLS) and a HTTP Proxy. The existing gems couldn't.
 
 ## Installation
 
