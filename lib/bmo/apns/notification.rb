@@ -36,16 +36,16 @@ module BMO
         # Define ==
         include Equalizer.new(:data)
 
-        attr_reader :data, :truncable_field, :options
+        attr_reader :data, :truncable_alert, :custom_data, :options
 
         def initialize(data, options = {})
           @data            = data
-          @truncable_field = options[:truncable_field]
+          @truncable_alert = options[:truncable_alert]
           @options         = options
         end
 
         def to_package
-          truncate_field! if truncable_field && !valid?
+          truncate_alert! if truncable_alert && !valid?
           validate!
           package
         end
@@ -62,13 +62,14 @@ module BMO
           [2, json.bytes.count, json].pack('cna*')
         end
 
-        def truncate_field!
-          return unless data[:aps] && data[:aps][truncable_field]
-          string                = data[:aps][truncable_field]
+        def truncate_alert!
+          return unless data[:aps] && data[:aps][:alert]
+          string                = data[:aps][:alert]
           diff_bytesize         = package.bytesize - MAX_BYTE_SIZE
           desirable_bytesize    = (string.bytesize - diff_bytesize) - 1
-          data[:aps][truncable_field] = Utils
-            .bytesize_force_truncate(string, desirable_bytesize, options)
+          data[:aps][:alert] = Utils.bytesize_force_truncate(string,
+                                                             desirable_bytesize,
+                                                             options)
         end
 
         def valid?

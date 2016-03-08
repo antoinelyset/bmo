@@ -31,6 +31,13 @@ end
 describe BMO::APNS::Notification::Payload do
   let(:payload_max_size) { BMO::APNS::Notification::Payload::MAX_BYTE_SIZE }
 
+  describe 'custom_data field' do
+    it 'truncates if there is a truncable field and this is not valid' do
+      payload = described_class.new(aps: { alert: 'a' }, custom_data: { hello: 'world' })
+      expect(payload.to_package).to eq("\x02\x005{\"aps\":{\"alert\":\"a\"},\"custom_data\":{\"hello\":\"world\"}}")
+    end
+  end
+
   describe '#validate!' do
     it 'returns true if the payload is valid' do
       payload = described_class.new(aps: 'a' * 200)
@@ -45,39 +52,39 @@ describe BMO::APNS::Notification::Payload do
 
   describe '#to_package' do
     it 'truncates if there is a truncable field and this is not valid' do
-      options = { truncable_field: :message }
-      payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
+      options = { truncable_alert: true }
+      payload = described_class.new({ aps: { alert: 'a' * payload_max_size } }, options)
       # I'm not able to write the hex literal for the beginning
-      expect(payload.to_package).to end_with("{\"aps\":{\"message\":\"#{'a' * (payload_max_size - 29)}...\"}}")
+      expect(payload.to_package).to end_with("{\"aps\":{\"alert\":\"#{'a' * (payload_max_size - 27)}...\"}}")
     end
 
     it 'truncates to respect the MAX_BYTE_SIZE' do
-      options = { truncable_field: :message }
-      payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
+      options = { truncable_alert: true }
+      payload = described_class.new({ aps: { alert: 'a' * payload_max_size } }, options)
       expect(payload.to_package.bytesize).to be < BMO::APNS::Notification::Payload::MAX_BYTE_SIZE
     end
   end
 
   describe '#truncable_field!' do
     it 'truncates the corresponding field in aps' do
-      options = { truncable_field: :message }
-      payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
-      payload.truncate_field!
-      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 29)) + '...')
+      options = { truncable_alert: true }
+      payload = described_class.new({ aps: { alert: 'a' * payload_max_size } }, options)
+      payload.truncate_alert!
+      expect(payload.data[:aps][:alert]).to eq(('a' * (payload_max_size - 27)) + '...')
     end
 
     it 'truncates with omission' do
-      options = { truncable_field: :message, omission: '[more]' }
-      payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
-      payload.truncate_field!
-      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 32)) + '[more]')
+      options = { truncable_field: :true, omission: '[more]' }
+      payload = described_class.new({ aps: { alert: 'a' * payload_max_size } }, options)
+      payload.truncate_alert!
+      expect(payload.data[:aps][:alert]).to eq(('a' * (payload_max_size - 30)) + '[more]')
     end
 
     it 'truncates with separator' do
-      options = { truncable_field: :message, separator: ' ' }
-      payload = described_class.new({ aps: { message: 'test ' + ('a' * (payload_max_size - 1)) } }, options)
-      payload.truncate_field!
-      expect(payload.data[:aps][:message]).to eq('test...')
+      options = { truncable_field: true, separator: ' ' }
+      payload = described_class.new({ aps: { alert: 'test ' + ('a' * (payload_max_size - 1)) } }, options)
+      payload.truncate_alert!
+      expect(payload.data[:aps][:alert]).to eq('test...')
     end
   end
 end
