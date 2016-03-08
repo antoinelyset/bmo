@@ -23,7 +23,7 @@ describe BMO::APNS::Notification::DeviceToken do
   describe '#to_package' do
     it 'returns the packaged token' do
       device_token = described_class.new('0' * 64)
-      expect(device_token.to_package).to eq("\x00" * 32)
+      expect(device_token.to_package).to eq("\x01\x00 " + "\x00" * 32)
     end
   end
 end
@@ -47,7 +47,8 @@ describe BMO::APNS::Notification::Payload do
     it 'truncates if there is a truncable field and this is not valid' do
       options = { truncable_field: :message }
       payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
-      expect(payload.to_package).to eq("{\"aps\":{\"message\":\"#{'a' * (payload_max_size - 26)}...\"}}")
+      # I'm not able to write the hex literal for the beginning
+      expect(payload.to_package).to end_with("{\"aps\":{\"message\":\"#{'a' * (payload_max_size - 29)}...\"}}")
     end
 
     it 'truncates to respect the MAX_BYTE_SIZE' do
@@ -62,14 +63,14 @@ describe BMO::APNS::Notification::Payload do
       options = { truncable_field: :message }
       payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
       payload.truncate_field!
-      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 26)) + '...')
+      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 29)) + '...')
     end
 
     it 'truncates with omission' do
       options = { truncable_field: :message, omission: '[more]' }
       payload = described_class.new({ aps: { message: 'a' * payload_max_size } }, options)
       payload.truncate_field!
-      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 29)) + '[more]')
+      expect(payload.data[:aps][:message]).to eq(('a' * (payload_max_size - 32)) + '[more]')
     end
 
     it 'truncates with separator' do
