@@ -15,14 +15,11 @@ module BMO
       def to_package
         payload_packaged      = payload.to_package
         device_token_packaged = device_token.to_package
-        [
-          0, 0,
-          device_token_packaged.size,
+        data = [
           device_token_packaged,
-          0,
-          payload_packaged.size,
           payload_packaged
-        ].pack('ccca*cca*')
+        ].join
+        [2, data.bytes.count, data].pack('cNa*')
       end
 
       def validate!
@@ -61,7 +58,8 @@ module BMO
         end
 
         def package
-          data.to_json.bytes.to_a.pack('C*')
+          json = data.to_json
+          [2, json.bytes.count, json].pack('cna*')
         end
 
         def truncate_field!
@@ -92,7 +90,7 @@ module BMO
         end
 
         def to_package
-          [token].pack('H*')
+          [1, 32, token].pack('cnH64')
         end
 
         def validate!
