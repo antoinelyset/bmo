@@ -44,7 +44,7 @@ module BMO
       #
       def ssl_context
         cert         = File.read(cert_path)
-        context      = OpenSSL::SSL::SSLContext.new
+        context      = OpenSSL::SSL::SSLContext.new(:TLSv1)
         context.cert = OpenSSL::X509::Certificate.new(cert)
         context.key  = OpenSSL::PKey::RSA.new(cert, cert_pass)
         context

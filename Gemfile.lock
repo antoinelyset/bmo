@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bmo (0.10.0)
+    bmo (0.11.0)
       equalizer (~> 0.0.0)
       faraday (> 0.8.0)
 
@@ -85,4 +85,4 @@ DEPENDENCIES
   terminal-notifier-guard
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
